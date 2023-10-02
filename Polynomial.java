@@ -331,8 +331,7 @@ public class Polynomial {
 		
 		File newFile = new File(filename);
 		newFile.createNewFile();
-			
-		
+				
 		PrintStream ps = new PrintStream(filename);
 		int lenArray = coefficient.length;
 		
