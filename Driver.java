@@ -70,8 +70,7 @@ public class Driver {
 		for(int i = 0; i < p4.exponent.length;i++  ) {
 			System.out.print(p4.exponent[i]+" ");
 		}
-		
-		
+				
 		p1.saveToFile("C:/Users/shizh/test2.txt");
 
 	}
