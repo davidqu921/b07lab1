@@ -97,78 +97,94 @@ public class Polynomial {
 	}
 	
 	public Polynomial multiply(Polynomial p) {
-		int a_len = this.coefficient.length;
-		int b_len = p.coefficient.length;
-		int len_of_raw_ExpArray = a_len * b_len;  // Get length of the array with duplicate exponent
+		if (this.coefficient[0]==0 && this.coefficient.length == 1) {
+			double[] coe = {0};
+			int[] exp = {0};
+			Polynomial newPoly = new Polynomial(coe,exp);
+			return newPoly;
+		}
 		
-		double[] rawCoeArray = new double[len_of_raw_ExpArray]; // Get raw coe & exp arrays
-		int[] rawExpArray = new int[len_of_raw_ExpArray];
+		else if (p.coefficient[0]==0 && p.coefficient.length == 1) {
+			double[] coe = {0};
+			int[] exp = {0};
+			Polynomial newPoly = new Polynomial(coe,exp);
+			return newPoly;
+		}
+		else {
 		
-		int arrPosition = 0;
+			int a_len = this.coefficient.length;
+			int b_len = p.coefficient.length;
+			int len_of_raw_ExpArray = a_len * b_len;  // Get length of the array with duplicate exponent
 		
-		for (int i = 0; i < a_len; i++) {
+			double[] rawCoeArray = new double[len_of_raw_ExpArray]; // Get raw coe & exp arrays
+			int[] rawExpArray = new int[len_of_raw_ExpArray];
+		
+			int arrPosition = 0;
+		
+			for (int i = 0; i < a_len; i++) {
 			
-			for (int j = 0; j < b_len; j++ ) {
+				for (int j = 0; j < b_len; j++ ) {
 				
-				double c = this.coefficient[i]*p.coefficient[j];
-				rawCoeArray[arrPosition] = c;
+					double c = this.coefficient[i]*p.coefficient[j];
+					rawCoeArray[arrPosition] = c;
 				
-				int e = this.exponent[i] + p.exponent[j];
-				rawExpArray[arrPosition] = e;
+					int e = this.exponent[i] + p.exponent[j];
+					rawExpArray[arrPosition] = e;
 				
-				arrPosition++;
-			}
-		}
-		
-		Set<Integer> expSet = new HashSet<Integer>();
-		for (int k = 0; k < len_of_raw_ExpArray; k++ ) {
-			expSet.add(rawExpArray[k]);
-		}
-		
-		// move exponents from set to array, get rid of duplicate , get exp array
-		int[] expArray = new int[expSet.size()];
-		int n = 0;
-		Iterator<Integer> iter2 = expSet.iterator();
-		while(iter2.hasNext()) {
-			expArray[n++] = iter2.next();
-		}
-		
-		int len_expArray = expArray.length; // Combine coefficients with same exponent, get coe array
-		double[] coeArray = new double[len_expArray];
-		
-		for(int l = 0; l < len_expArray; l++) {;
-			double newCoe = 0;
-			for (int g = 0; g < len_of_raw_ExpArray; g++) {
-				if (rawExpArray[g] == expArray[l]) {
-					newCoe = newCoe + rawCoeArray[g];
+					arrPosition++;
 				}
-			coeArray[l]	= newCoe;
+			}
+		
+			Set<Integer> expSet = new HashSet<Integer>();
+			for (int k = 0; k < len_of_raw_ExpArray; k++ ) {
+				expSet.add(rawExpArray[k]);
+			}
+		
+			// move exponents from set to array, get rid of duplicate , get exp array
+			int[] expArray = new int[expSet.size()];
+			int n = 0;
+			Iterator<Integer> iter2 = expSet.iterator();
+			while(iter2.hasNext()) {
+				expArray[n++] = iter2.next();
+			}
+		
+			int len_expArray = expArray.length; // Combine coefficients with same exponent, get coe array
+			double[] coeArray = new double[len_expArray];
+		
+			for(int l = 0; l < len_expArray; l++) {;
+				double newCoe = 0;
+				for (int g = 0; g < len_of_raw_ExpArray; g++) {
+					if (rawExpArray[g] == expArray[l]) {
+						newCoe = newCoe + rawCoeArray[g];
+					}
+					coeArray[l]	= newCoe;
 				
+				}
 			}
-		}
 		
-		int len_finalArray = 0;          // Get the length of final array where no coefficient = 0
-		for (int e = 0; e < len_expArray; e++) {
-			if (coeArray[e] != 0) {
-				len_finalArray++;
+			int len_finalArray = 0;          // Get the length of final array where no coefficient = 0
+			for (int e = 0; e < len_expArray; e++) {
+				if (coeArray[e] != 0) {
+					len_finalArray++;
+				}
 			}
-		}
 		
-		int[] finalExpArray = new int[len_finalArray];
-		double[] finalCoeArray = new double[len_finalArray];
+			int[] finalExpArray = new int[len_finalArray];
+			double[] finalCoeArray = new double[len_finalArray];
 		
-		int counter = 0;
-		for (int o = 0; o < len_expArray; o++) {
-			if (coeArray[o] != 0) {
-				finalExpArray[counter] = expArray[o];
-				finalCoeArray[counter] = coeArray[o];
-				counter++;
+			int counter = 0;
+			for (int o = 0; o < len_expArray; o++) {
+				if (coeArray[o] != 0) {
+					finalExpArray[counter] = expArray[o];
+					finalCoeArray[counter] = coeArray[o];
+					counter++;
+				}
 			}
-		}
 		
 			
-		Polynomial result_poly = new Polynomial(finalCoeArray,finalExpArray);
-		return result_poly;
+			Polynomial result_poly = new Polynomial(finalCoeArray,finalExpArray);
+			return result_poly;
+		}
 	}
 	
 	public Polynomial(File f) throws Exception {
@@ -311,7 +327,7 @@ public class Polynomial {
 	}
 	
 	
-	public void saveTofile(String filename) throws Exception {
+	public void saveToFile(String filename) throws Exception {
 		
 		File newFile = new File(filename);
 		newFile.createNewFile();
