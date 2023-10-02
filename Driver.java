@@ -12,11 +12,26 @@ public class Driver {
 		int [] e2 = {2,1,3};
 		Polynomial p2 = new Polynomial(c2, e2);
 		System.out.println("p2(2) = " + p2.evaluate(2));
+		double[] c5 = {3.5,-2,1};
+		int[] e5 = {2,1,4};
 		
+		Polynomial p5 = new Polynomial(c5,e5);
+		
+		Polynomial s1 = p.add(p);
+		System.out.println("s1(2) = " + s1.evaluate(2));
+		Polynomial s2 = p.add(p5);
+		System.out.println("s2(1) = " + s2.evaluate(1));
 		
 		Polynomial s = p1.add(p2);
 		System.out.println("s(2) = " + s.evaluate(2));
 		
+		Polynomial p6 = p.multiply(p5);
+		for(int i = 0; i < p6.coefficient.length;i++  ) {
+			System.out.print(p6.coefficient[i]+" ");
+		}
+		System.out.println("");
+		p6.saveToFile("C:/Users/shizh/test3.txt");
+
 		
 		if(s.hasRoot(1))
 		System.out.println("1 is a root of s");
@@ -24,6 +39,7 @@ public class Driver {
 		System.out.println("1 is not a root of s");
 		
 		Polynomial p3 = p1.multiply(p2);
+		p3.saveToFile("C:/Users/shizh/test4.txt");
 		
 		System.out.print("the coefficient of p3 are:");
 		for(int i = 0; i < p3.coefficient.length;i++  ) {
@@ -56,7 +72,7 @@ public class Driver {
 		}
 		
 		
-		p1.saveTofile("C:/Users/shizh/test2.txt");
+		p1.saveToFile("C:/Users/shizh/test2.txt");
 
 	}
 }
